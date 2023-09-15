@@ -18,6 +18,12 @@
             crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <title>Document</title>
+    <script src="default.js" defer></script>
+    <style type="text/css">
+        *{
+            font-family: var(--bs-font-sans-serif);
+        }
+    </style>
 </head>
 <body>
 <div class='row w-100 m-0'>
@@ -51,7 +57,7 @@
 
         <div class="row">
             <div class='d-flex justify-content-center col-sm-6'>
-                <button id="enviar" class="btn btn-primary btn-lg">Sortear</button>
+                <button id="enviar" class="btn btn-primary btn-lg" type="button">Sortear</button>
             </div>
             <div class="col-sm-6 text-center">
                 <div class="text-start">
@@ -77,11 +83,11 @@
                     <th scope="col">Resultado</th>
                 </tr>
                 </thead>
-                <tbody>
-                    <tr th:each="numero , cont : ${resultados}">
-                    <td th:text="${cont.index + 1}"></td>
-                    <td th:text="${numero}"></td>
-                </tr>
+                <tbody id="resultado-tbody">
+                    <tr th:each="resultado,cont : ${resultados}">
+                        <td th:text="${cont.index + 1}"></td>
+                        <td th:text="${resultado}"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -90,37 +96,11 @@
             <h1 class="text-center" th:text="${qtd}"></h1>
             <h4 class="text-center mt-5">Sorteio entre</h4>
             <h1 class="text-center"><span th:text="${min}"></span> e <span th:text="${max}"></span></h1>
+            <h4 class="text-center">Data E Hora do Sorteio</h4>
+            <h1 class="text-center" id="dataFormatada"><span th:text="${dataFormatada}"></span></h1>
+
         </div>
     </div>
-    <script type="text/javascript">
-        $("#enviar").click(envia);
-        function envia(){
-
-            let qtd = $("#qtd").val();
-            let min = $("#min").val();
-            let max = $("#max").val();
-            let ordenar = $("#ordenar")[0].checked;
-            let repeticao = $("#repeticao")[0].checked;
-
-            $.ajax({
-                type: "POST",
-                url: "/",
-                data: {
-                    qtd: qtd,
-                    min: min,
-                    max: max,
-                    ordenar:ordenar,
-                    repeticao:repeticao
-                },
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function () {
-                    alert("Não foi possível realizar a solicitação.");
-                }
-            });
-        }
-    </script>
 </div>
 </body>
 </html>

@@ -20,15 +20,23 @@ public class C_Sorteio {
     }
 
     @PostMapping("/")
-    @ResponseBody
-    public M_Sorteio PostSorteio(@RequestParam("qtd") int qtd,
+    public String PostSorteio(@RequestParam("qtd") int qtd,
                                  @RequestParam("min") int min,
                                  @RequestParam("max") int max,
                                  @RequestParam("ordenar") boolean ordenar,
-                                 @RequestParam("repeticao") boolean repeticao
+                                 @RequestParam("repeticao") boolean repeticao,
+                                 Model model
     ) {
 
-        return S_Sorteio.getSorteioNumero(qtd, min, max, ordenar, repeticao);
+        M_Sorteio sorteio = S_Sorteio.getSorteioNumero(qtd, min, max, ordenar, repeticao);
+
+        model.addAttribute(("resultados"), sorteio.getResultados());
+        model.addAttribute(("qtd"), sorteio.getQtd());
+        model.addAttribute(("min"), sorteio.getMin());
+        model.addAttribute(("max"), sorteio.getMax());
+        model.addAttribute(("dataFormatada"), sorteio.getDataFormatada());
+
+        return "Home/home";
     }
 
 }
